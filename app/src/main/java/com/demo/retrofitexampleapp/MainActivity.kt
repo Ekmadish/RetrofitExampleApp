@@ -32,7 +32,7 @@ import kotlin.math.log
         setupRecyclerView()
 
 //        val post=Post("demo body from Estay",147,"from Estay Post",147)
-        viewModel.getPost()
+        viewModel.getPost("nkjcndskfjncksd")
         viewModel.myResponse.observe(this,Observer {
             if(it.isSuccessful){
                 Log.d("response",it.body().toString())
