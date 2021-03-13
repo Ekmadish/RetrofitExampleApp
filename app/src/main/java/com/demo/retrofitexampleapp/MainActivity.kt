@@ -27,14 +27,22 @@ class MainActivity : AppCompatActivity() {
 
             findViewById<Button>(R.id.btn).setOnClickListener{
             val myNumber=findViewById<EditText>(R.id.editTextNumber).text.toString()
-            viewModel.getPost2(Integer.parseInt(myNumber))
-            viewModel.myResponse2.observe(this, Observer{ response->
+            viewModel. getCustomPost(Integer.parseInt(myNumber))
+            viewModel.myResponse3.observe(this, Observer{ response->
                 if (response.isSuccessful){
-                    textView.text = response.body()?.body.toString()
-                    Log.d("eeee" ,response.body()?.title.toString())
-                    Log.d("eeee" ,response.body()?. id.toString())
-                    Log.d("eeee" ,response.body()?.userId.toString())
-                    Log.d("eeee" ,response.body()?. body.toString())
+                    textView.text = response.body().toString()
+
+
+                    response.body()?.forEach {
+
+                        Log.d("respon",it.id.toString())
+                        Log.d("respon",it.title.toString())
+                        Log.d("respon",it.body.toString())
+                    }
+//                    Log.d("eeee" ,response.body()?.title.toString())
+//                    Log.d("eeee" ,response.body()?. id.toString())
+//                    Log.d("eeee" ,response.body()?.userId.toString())
+//                    Log.d("eeee" ,response.body()?. body.toString())
                 }else{
                     Toast.makeText(this,response.code().toString(),Toast.LENGTH_SHORT).show()
                 }
