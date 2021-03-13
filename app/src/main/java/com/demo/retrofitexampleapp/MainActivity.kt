@@ -32,13 +32,13 @@ import kotlin.math.log
         setupRecyclerView()
 
 //        val post=Post("demo body from Estay",147,"from Estay Post",147)
-        viewModel.pushPost2(147,101,"Estay","Demo post from Estay@@@@@@")
+        viewModel.getPost()
         viewModel.myResponse.observe(this,Observer {
             if(it.isSuccessful){
                 Log.d("response",it.body().toString())
                 Log.d("response",it.body()?.title.toString())
                 Log.d("response","*******************************")
-                Log.d("response",it.code().toString())
+                Log.d("response",it.headers().toString())
                 Log.d("response","*******************************")
                 Log.d("response",it.body()?.id.toString())
                 Log.d("response",it.body()?.userId.toString())
@@ -51,11 +51,8 @@ import kotlin.math.log
         })}
 
     private fun setupRecyclerView(){
-
         findViewById< RecyclerView>(R.id.recyclerView).adapter=myAdapter
         findViewById< RecyclerView>(R.id.recyclerView).layoutManager = LinearLayoutManager(this)
-
-
     }
 
 }
