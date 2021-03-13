@@ -31,8 +31,8 @@ import kotlin.math.log
         viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         setupRecyclerView()
 
-        val post=Post("demo body from Estay",147,"from Estay Post",147)
-        viewModel.pushPost(post)
+//        val post=Post("demo body from Estay",147,"from Estay Post",147)
+        viewModel.pushPost2(147,101,"Estay","Demo post from Estay@@@@@@")
         viewModel.myResponse.observe(this,Observer {
             if(it.isSuccessful){
                 Log.d("response",it.body().toString())
