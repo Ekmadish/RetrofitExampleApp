@@ -1,4 +1,4 @@
-package com.demo.retrofitexampleapp
+ package com.demo.retrofitexampleapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.retrofitexampleapp.adapter.MyAdapter
+import com.demo.retrofitexampleapp.model.Post
 import com.demo.retrofitexampleapp.repository.Repository
+import kotlin.math.log
 
-class MainActivity : AppCompatActivity() {
+ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var viewModel: MainViewModel
@@ -28,10 +30,21 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory=MainViewModelProviderFactory(repository)
         viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         setupRecyclerView()
-        viewModel.getCustomPost(2,"id","desc")
-        viewModel.myCustomPost1.observe(this,Observer {
+
+        val post=Post("demo body from Estay",147,"from Estay Post",147)
+        viewModel.pushPost(post)
+        viewModel.myResponse.observe(this,Observer {
             if(it.isSuccessful){
-                it.body()?.let { it1 -> myAdapter.setData(it1) }
+                Log.d("response",it.body().toString())
+                Log.d("response",it.body()?.title.toString())
+                Log.d("response","*******************************")
+                Log.d("response",it.code().toString())
+                Log.d("response","*******************************")
+                Log.d("response",it.body()?.id.toString())
+                Log.d("response",it.body()?.userId.toString())
+
+
+//                it.body()?.let { it1 -> myAdapter.setData(it1) }
             }else{
                 Toast.makeText(this,it.code().toString(),Toast.LENGTH_SHORT).show()
             }

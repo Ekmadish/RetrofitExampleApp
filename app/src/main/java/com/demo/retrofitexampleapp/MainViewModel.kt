@@ -22,28 +22,32 @@ class MainViewModel(private val repository : Repository): ViewModel() {
             myResponse.value=response
         }
     }
-
-
     fun getPost2(postNumber :Int){
         viewModelScope.launch{
             val response=repository.getPost2(postNumber)
             myResponse2.value=response
         }
     }
-
     fun getCustomPost(userId :Int,sort:String,order:String){
         viewModelScope.launch{
             val  response=repository.getCustomPosts(userId,sort,order)
             myCustomPost1.value=response
         }
     }
-
-
-     fun getCustomPosts2(userId:Int,options:Map<String,String>){
+    fun getCustomPosts2(userId:Int,options:Map<String,String>){
          viewModelScope.launch{
              val response=repository.getCustomPosts2(userId, options)
              myCustomPost2.value=response
          }
     }
 
+
+
+    fun pushPost(post:Post){
+        viewModelScope.launch{
+            val response=repository.pushPost(post)
+            myResponse.value=response
+
+        }
+    }
 }
