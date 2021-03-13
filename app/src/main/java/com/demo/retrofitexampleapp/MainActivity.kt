@@ -24,11 +24,19 @@ class MainActivity : AppCompatActivity() {
         val repository= Repository()
         val viewModelFactory=MainViewModelProviderFactory(repository)
         viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        val options=HashMap<String,String>()
+
+
+        options["_sort"] = "id"
+        options["_order"]="desc"
+
+
+
 
             findViewById<Button>(R.id.btn).setOnClickListener{
             val myNumber=findViewById<EditText>(R.id.editTextNumber).text.toString()
-            viewModel. getCustomPost(Integer.parseInt(myNumber),"id","desc")
-            viewModel.myResponse3.observe(this, Observer{ response->
+            viewModel.getCustomPosts2(Integer.parseInt(myNumber),options)
+            viewModel.myCustomPost2.observe(this, Observer{ response->
                 if (response.isSuccessful){
                     textView.text = response.body().toString()
 
@@ -36,8 +44,10 @@ class MainActivity : AppCompatActivity() {
                     response.body()?.forEach {
 
                         Log.d("respon",it.id.toString())
+                        Log.d("respon",it.userId.toString())
                         Log.d("respon",it.title.toString())
                         Log.d("respon",it.body.toString())
+                        Log.d("respon","-------------------------****************------------------------")
                     }
 //                    Log.d("eeee" ,response.body()?.title.toString())
 //                    Log.d("eeee" ,response.body()?. id.toString())
