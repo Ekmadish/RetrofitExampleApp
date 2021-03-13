@@ -6,6 +6,12 @@ import retrofit2.http.*
 
 
 interface SimpleApi {
+
+
+    @Headers(
+        "Authorization Estay",
+        "Platform IOS"
+    )
     @GET("posts/1")
     suspend fun getPost(): Response<Post>
 
