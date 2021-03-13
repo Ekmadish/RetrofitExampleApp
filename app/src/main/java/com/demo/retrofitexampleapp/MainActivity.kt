@@ -9,67 +9,38 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.demo.retrofitexampleapp.adapter.MyAdapter
 import com.demo.retrofitexampleapp.repository.Repository
 
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var viewModel: MainViewModel
+    private val myAdapter by lazy{MyAdapter()}
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textView = findViewById<TextView>(R.id.textView)
-
-
         val repository= Repository()
         val viewModelFactory=MainViewModelProviderFactory(repository)
         viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        val options=HashMap<String,String>()
+        setupRecyclerView()
+        viewModel.getCustomPost(2,"id","desc")
+        viewModel.myCustomPost1.observe(this,Observer {
+            if(it.isSuccessful){
+                it.body()?.let { it1 -> myAdapter.setData(it1) }
+            }else{
+                Toast.makeText(this,it.code().toString(),Toast.LENGTH_SHORT).show()
+            }
+        })}
 
+    private fun setupRecyclerView(){
 
-        options["_sort"] = "id"
-        options["_order"]="desc"
-
-
-
-
-            findViewById<Button>(R.id.btn).setOnClickListener{
-            val myNumber=findViewById<EditText>(R.id.editTextNumber).text.toString()
-            viewModel.getCustomPosts2(Integer.parseInt(myNumber),options)
-            viewModel.myCustomPost2.observe(this, Observer{ response->
-                if (response.isSuccessful){
-                    textView.text = response.body().toString()
-
-
-                    response.body()?.forEach {
-
-                        Log.d("respon",it.id.toString())
-                        Log.d("respon",it.userId.toString())
-                        Log.d("respon",it.title.toString())
-                        Log.d("respon",it.body.toString())
-                        Log.d("respon","-------------------------****************------------------------")
-                    }
-//                    Log.d("eeee" ,response.body()?.title.toString())
-//                    Log.d("eeee" ,response.body()?. id.toString())
-//                    Log.d("eeee" ,response.body()?.userId.toString())
-//                    Log.d("eeee" ,response.body()?. body.toString())
-                }else{
-                    Toast.makeText(this,response.code().toString(),Toast.LENGTH_SHORT).show()
-                }
-
-
-
-            })
-
-
-        }
-
-
-
-
-
-
-
+        findViewById< RecyclerView>(R.id.recyclerView).adapter=myAdapter
+        findViewById< RecyclerView>(R.id.recyclerView).layoutManager = LinearLayoutManager(this)
 
 
     }
